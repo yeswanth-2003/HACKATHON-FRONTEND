@@ -4,7 +4,6 @@ import { Container, Navbar, Nav, Button, Row, Col, Card, Pagination } from "reac
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaSun, FaMoon } from 'react-icons/fa';
 
-
 export default function JobListing() {
   const [darkMode, setDarkMode] = useState(false);
   const [jobs, setJobs] = useState([
@@ -20,9 +19,11 @@ export default function JobListing() {
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 6;
   const navigate = useNavigate();
-    useEffect(() => {
+
+  useEffect(() => {
     setDarkMode(JSON.parse(localStorage.getItem("darkMode")) || false);
   }, []);
+
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
@@ -40,7 +41,7 @@ export default function JobListing() {
   const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
 
   return (
-    <div className={darkMode ? "bg-dark text-light min-vh-100" : "bg-light min-vh-100"}>
+    <div className={darkMode ? "bg-dark text-light min-vh-100" : "bg-light min-vh-100"} style={{ fontFamily: darkMode ? 'Arial, sans-serif' : 'Times New Roman, serif' }}>
       <Navbar bg={darkMode ? "dark" : "light"} expand="lg" className="px-3 shadow-lg">
         <Navbar.Brand className={darkMode ? "fw-bold fs-3 text-white" : "fw-bold fs-3 text-primary"}>💼 Job Listings</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -49,8 +50,8 @@ export default function JobListing() {
             <Nav.Link onClick={() => navigate('/studentprofile')} className={darkMode ? "fw-semibold text-white" : "fw-semibold text-dark"}>Profile</Nav.Link>
             <Nav.Link onClick={() => navigate('/studentdashboard')} className={darkMode ? "fw-semibold text-white" : "fw-semibold text-dark"}>Dashboard</Nav.Link>
             <Nav.Link onClick={() => navigate('/studentapplications')} className={darkMode ? "fw-semibold text-white" : "fw-semibold text-dark"}>Applications</Nav.Link>
-             <Button variant="secondary" className="ms-3" onClick={toggleDarkMode}>
-                          {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
+            <Button variant="secondary" className="ms-3" onClick={toggleDarkMode}>
+              {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
             </Button>
             <Button variant="outline-danger" className="ms-2" onClick={handleLogout}>Logout</Button>
           </Nav>
@@ -68,7 +69,7 @@ export default function JobListing() {
                   <Card.Subtitle className="mb-2 text-muted">{job.company}</Card.Subtitle>
                   <Card.Text className="mb-2">📍 {job.location}</Card.Text>
                   <Card.Text className="fw-bold">💰 {job.pay}</Card.Text>
-                  <Button variant="primary">Apply</Button>
+                  <Button variant="primary" onClick={() => navigate(`/job/${job.id}`)}>View Details</Button>
                 </Card.Body>
               </Card>
             </Col>

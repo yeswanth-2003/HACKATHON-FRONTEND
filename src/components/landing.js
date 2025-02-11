@@ -15,7 +15,16 @@ const LandingPage = () => {
 
     useEffect(() => {
         setDarkTheme(JSON.parse(localStorage.getItem("darkMode")) || false);
-    }, []);
+
+        const studentToken = localStorage.getItem("studentToken");
+        const companyToken = localStorage.getItem("companyToken");
+
+        if (studentToken) {
+            navigate("/studentdashboard");
+        } else if (companyToken) {
+            navigate("/companydashboard");
+        }
+    }, [navigate]);
 
     const toggleTheme = () => {
         setDarkTheme(prevMode => {
@@ -39,7 +48,6 @@ const LandingPage = () => {
         try {
             const endpoint = isLogin ? "login" : "register";
             const bodyData = isLogin ? loginData : registerData;
-            console.log("Submitting Data:", bodyData);
 
             const response = await fetch(`https://hackathon-backend-z1w8.onrender.com/api/${userType === "student" ? "students" : "companies"}/${endpoint}`, {
                 method: "POST",
@@ -48,8 +56,6 @@ const LandingPage = () => {
             });
 
             const text = await response.text();
-            console.log("Raw API Response:", text);
-
             let data;
             try {
                 data = JSON.parse(text);
@@ -64,24 +70,41 @@ const LandingPage = () => {
             }
 
             if (isLogin && data.token) {
-                localStorage.setItem(`${userType}Token`, data.token);
-                localStorage.setItem(`${userType}Name`, data[userType]?.name || "");
+                try {
+                    localStorage.setItem(`${userType}Token`, data.token);
+                    localStorage.setItem(`${userType}Name`, data[userType]?.name || "");
+                    if (userType === "student" && data.student?.studentId) {
+                        localStorage.setItem("studentId", data.student.studentId);
+                    } else if (userType === "company" && data.company?.companyId) {
+                        localStorage.setItem("companyId", data.company.companyId);
+                    }
+                    console.log("Saved to localStorage:", {
+                        token: localStorage.getItem(`${userType}Token`),
+                        name: localStorage.getItem(`${userType}Name`),
+                        id: userType === "student" ? localStorage.getItem("studentId") : localStorage.getItem("companyId")
+                    });
+                } catch (storageError) {
+                    console.error("LocalStorage Error:", storageError);
+                    setError("Storage issue. Please check browser settings.");
+                    return;
+                }
                 navigate(`/${userType}dashboard`);
             } else if (!isLogin) {
-                setIsRegister(false); // Switch to login form after registration
+                setIsRegister(false);
             }
         } catch (err) {
-            console.error("Registration Error:", err.message);
+            console.error("Error:", err.message);
             setError(err.message);
         }
     };
 
     return (
         <div className={darkTheme ? "bg-secondary text-light min-vh-100" : "bg-light text-dark min-vh-100"}>
-            <Navbar bg={darkTheme ? "secondary" : "light"} variant={darkTheme ? "dark" : "light"} expand="lg" className="px-3 shadow-lg">
+            <Navbar expand="lg" className={`px-3 shadow-lg ${darkTheme ? "bg-secondary" : "bg-light"}`} variant={darkTheme ? "dark" : "light"}>
                 <Navbar.Brand className="fw-bold fs-3 text-primary">
                     Ideathon Job Portal
                 </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto d-flex align-items-center">
                         <Button variant={darkTheme ? "outline-light" : "outline-dark"} onClick={toggleTheme}>
@@ -126,12 +149,6 @@ const LandingPage = () => {
                             {error && <p className="text-danger text-center">{error}</p>}
                             <Button type="submit" variant="primary" className="w-100">{isRegister ? "Register" : "Login"}</Button>
                         </Form>
-                        <p className="text-center mt-3">
-                            {isRegister ? "Already have an account? " : "Don't have an account? "}
-                            <span className="text-primary" style={{ cursor: 'pointer' }} onClick={() => setIsRegister(!isRegister)}>
-                                {isRegister ? "Login" : "Register"}
-                            </span>
-                        </p>
                     </Card.Body>
                 </Card>
             </div>
