@@ -8,6 +8,8 @@ import Joblisting from './components/joblistings';
 import StudentApplications from './components/studentapplications';
 import StudentProfile from './components/studentprofile';
 import JobDetails from './components/singlejobdetails';
+import CompanyDashboard from './components/companydashboard';
+
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
       <Route path="/studentapplications" element={<StudentApplications/>} />
       <Route path="/studentprofile" element={<StudentProfile/>} />
       <Route path="/job/:id" element={<JobDetails/>} />
+      <Route path="/companydashboard" element={<CompanyDashboard/>} />
+
 
 
     </Routes>

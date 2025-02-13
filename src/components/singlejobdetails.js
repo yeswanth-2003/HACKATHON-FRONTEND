@@ -55,7 +55,7 @@ export default function JobDetails() {
 
       <div className="mt-5 mx-auto" style={{ maxWidth: "800px" }}>
         <h2 className="fw-bold text-primary">{job.title}</h2>
-        <p className="text-muted fs-5">{job.company} | {job.location}</p>
+        <p className={`fs-5 ${darkMode ? "text-light" : "text-muted"}`}>{job.company} | {job.location}</p>
         <hr />
         <p className="fs-5"><strong>💰 Salary:</strong> {job.pay}</p>
         <p className="fs-5"><strong>🎓 Experience Required:</strong> {job.experience}</p>
