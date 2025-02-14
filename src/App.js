@@ -9,6 +9,7 @@ import StudentApplications from './components/studentapplications';
 import StudentProfile from './components/studentprofile';
 import JobDetails from './components/singlejobdetails';
 import CompanyDashboard from './components/companydashboard';
+import CompanyProfile from './components/companyprofile';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
       <Route path="/studentprofile" element={<StudentProfile/>} />
       <Route path="/job/:id" element={<JobDetails/>} />
       <Route path="/companydashboard" element={<CompanyDashboard/>} />
+      <Route path="/companyprofile" element={<CompanyProfile/>} />
 
 
 

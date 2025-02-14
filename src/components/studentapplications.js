@@ -25,8 +25,8 @@ export default function StudentApplications() {
   const navigate = useNavigate();
 
   useEffect(() => {
-     setDarkMode(JSON.parse(localStorage.getItem("darkMode")) || false);
-   }, []);
+    setDarkMode(JSON.parse(localStorage.getItem("darkMode")) || false);
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -47,18 +47,17 @@ export default function StudentApplications() {
   return (
     <div className={`${darkMode ? "bg-dark text-light" : "bg-light text-dark"} min-vh-100`}>
       <Navbar bg={darkMode ? "dark" : "light"} variant={darkMode ? "dark" : "light"} expand="lg" className="px-3 shadow-lg">
-        <Navbar.Brand className="fw-bold fs-3 text-warning">📄 Student Applications</Navbar.Brand>
+        <Navbar.Brand className="fw-bold fs-3">Student Applications</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link onClick={() => navigate('/studentprofile')} className="fw-semibold">Profile</Nav.Link>
             <Nav.Link onClick={() => navigate('/studentdashboard')} className="fw-semibold">Dashboard</Nav.Link>
             <Nav.Link onClick={() => navigate('/joblisting')} className="fw-semibold">Job Listings</Nav.Link>
-             <Button variant="secondary" className="ms-3" onClick={toggleDarkMode}>
-                          {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
+            <Button variant={darkMode ? "light" : "dark"} className="ms-3" onClick={toggleDarkMode}>
+              {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
             </Button>
-            <Button variant="outline-warning" className="ms-2" onClick={handleLogout}>Logout</Button>
-           
+            <Button variant={darkMode ? "outline-light" : "outline-dark"} className="ms-2" onClick={handleLogout}>Logout</Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -68,7 +67,7 @@ export default function StudentApplications() {
         <Row className="mt-4 g-4">
           {currentApplications.map((app) => (
             <Col md={4} key={app.id}>
-              <Card className={`shadow-lg rounded-3 ${darkMode ? "bg-secondary text-light" : "bg-light text-dark"}`}>
+              <Card className={`shadow-lg rounded-3 ${darkMode ? "bg-secondary text-light" : "bg-white text-dark"}`}>
                 <Card.Body>
                   <Card.Title className="fw-bold">{app.job}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">{app.company}</Card.Subtitle>

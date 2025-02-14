@@ -41,10 +41,10 @@ const StudentProfile = () => {
                         <Nav.Link onClick={() => navigate('/studentdashboard')} className="fw-semibold">Dashboard</Nav.Link>
                         <Nav.Link onClick={() => navigate('/joblisting')} className="fw-semibold">Job Listings</Nav.Link>
                         <Nav.Link onClick={() => navigate('/studentapplications')} className="fw-semibold">Applications</Nav.Link>
-                        <Button variant="secondary" className="ms-3" onClick={toggleDarkMode}>
+                        <Button variant={darkMode ? "light" : "dark"} className="ms-3" onClick={toggleDarkMode}>
                             {darkMode ? <FaSun /> : <FaMoon />}
                         </Button>
-                        <Button variant="outline-warning" className="ms-2" onClick={handleLogout}>Logout</Button>
+                        <Button variant={darkMode ? "outline-light" : "outline-dark"} className="ms-2" onClick={handleLogout}>Logout</Button>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
@@ -57,7 +57,7 @@ const StudentProfile = () => {
                                 style={{ width: '350px', height: '350px', objectFit: 'cover', borderWidth: '4px' }} />
                         </div>
                         <div className="col-md-8">
-                            <h2 className={`fw-bold ${darkMode ? "text-light" : "text-dark"}`}>John Doe</h2>
+                            <h2 className="fw-bold">John Doe</h2>
                             <p className={darkMode ? "text-light" : "text-muted"}>Engineering Student | AI Enthusiast | Software Developer</p>
                             <p><strong>Location:</strong> New Delhi, India</p>
                         </div>
@@ -107,8 +107,8 @@ const StudentProfile = () => {
                 <hr />
 
                 <div className="text-center mt-4">
-                    <button className="btn btn-primary px-4 py-2 me-2">Connect</button>
-                    <a href="resume.pdf" className="btn btn-success px-4 py-2">Download Resume</a>
+                    <button className="btn btn-dark px-4 py-2 me-2">Connect</button>
+                    <a href="resume.pdf" className="btn btn-light px-4 py-2">Download Resume</a>
                 </div>
             </div>
         </div>
