@@ -21,7 +21,7 @@ export default function StudentDashboard() {
     fetch("https://hackathon-backend-z1w8.onrender.com/api/jobs/getalljobs")
       .then(response => response.json())
       .then(data => {
-        setJobListings(data);
+        setJobListings(data.reverse());
       })
       .catch(error => {
         console.error("Error fetching job listings:", error);
