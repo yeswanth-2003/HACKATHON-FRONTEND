@@ -86,7 +86,8 @@ export default function PostJob() {
       }
 
       const result = await response.json();
-      navigate("/postjob"); // Redirect to jobs page after successful posting
+      navigate("/postjob"); 
+      alert("Job posted successfully!");
     } catch (error) {
       setErrorMessage(error.message);
     }
