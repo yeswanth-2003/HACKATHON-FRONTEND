@@ -27,11 +27,14 @@ export default function CompanyProfile() {
     <div className={`min-vh-100 ${darkMode ? "bg-dark text-light" : "bg-light text-dark"}`}>
       <Navbar expand="lg" className={`px-4 py-3 border-bottom ${darkMode ? "bg-dark" : "bg-light"}`}>
         <Navbar.Brand className={darkMode ? "text-light" : "text-dark"}>Company Profile</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="navbar-nav"
+          style={{ filter: darkMode ? "invert(1)" : "none" }} // Ensures visibility in dark mode
+        />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link className={darkMode ? "text-light" : "text-dark"} onClick={() => navigate('/companydashboard')}>Dashboard</Nav.Link>
-            <Nav.Link className={darkMode ? "text-light" : "text-dark"} onClick={() => navigate('/post-job')}>Post a Job</Nav.Link>
+            <Nav.Link className={darkMode ? "text-light" : "text-dark"} onClick={() => navigate('/postjob')}>Post a Job</Nav.Link>
             <Nav.Link className={darkMode ? "text-light" : "text-dark"} onClick={() => navigate('/applications')}>Applications</Nav.Link>
             <Button className="ms-3" onClick={toggleDarkMode} variant={darkMode ? "outline-light" : "outline-dark"}>
               {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}

@@ -15,7 +15,11 @@ const LandingPage = () => {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        setDarkTheme(JSON.parse(localStorage.getItem("darkMode")) || false);
+        // Check if localStorage is available
+        if (typeof window !== "undefined" && window.localStorage) {
+            setDarkTheme(JSON.parse(localStorage.getItem("darkMode")) || false);
+        }
+
         const studentToken = localStorage.getItem("studentToken");
         const companyToken = localStorage.getItem("companyToken");
 
@@ -28,7 +32,9 @@ const LandingPage = () => {
 
     const toggleTheme = () => {
         setDarkTheme(prevMode => {
-            localStorage.setItem("darkMode", JSON.stringify(!prevMode));
+            if (typeof window !== "undefined" && window.localStorage) {
+                localStorage.setItem("darkMode", JSON.stringify(!prevMode));
+            }
             return !prevMode;
         });
     };
@@ -69,17 +75,23 @@ const LandingPage = () => {
 
             if (isLogin && data.token) {
                 try {
-                    localStorage.setItem(`${userType}Token`, data.token);
-                    if (userType === "student") {
-                        localStorage.setItem("studentName", data.student?.name || "");
-                        localStorage.setItem("studentId", data.student?.studentId || "");
-                    } else if (userType === "company") {
-                        localStorage.setItem("companyName", data.company?.name || "");
-                        localStorage.setItem("companyId", data.company?.companyId || "");
+                    // Check if localStorage is available before setting items
+                    if (typeof window !== "undefined" && window.localStorage) {
+                        localStorage.setItem(`${userType}Token`, data.token);
+                        console.log("Token saved to localStorage:", data.token);
+
+                        if (userType === "student") {
+                            localStorage.setItem("studentName", data.student?.name || "");
+                            localStorage.setItem("studentId", data.student?.studentId || "");
+                        } else if (userType === "company") {
+                            localStorage.setItem("companyName", data.company?.name || "");
+                            localStorage.setItem("companyId", data.company?.companyId || "");
+                        }
                     }
-                    console.log(data)
+                    console.log("Data saved to localStorage", data);
                 } catch (storageError) {
                     setError("Storage issue. Please check browser settings.");
+                    console.error("Error saving to localStorage:", storageError);
                     return;
                 }
                 navigate(`/${userType}dashboard`);
@@ -88,6 +100,7 @@ const LandingPage = () => {
             }
         } catch (err) {
             setError(err.message);
+            console.error("Error:", err);
         }
     };
 

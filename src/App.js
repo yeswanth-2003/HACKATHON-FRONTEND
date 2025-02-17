@@ -10,6 +10,8 @@ import StudentProfile from './components/studentprofile';
 import JobDetails from './components/singlejobdetails';
 import CompanyDashboard from './components/companydashboard';
 import CompanyProfile from './components/companyprofile';
+import PostJob from './components/postjob';
+import Applications from './components/viewapplications';
 
 
 function App() {
@@ -24,7 +26,8 @@ function App() {
       <Route path="/job/:id" element={<JobDetails/>} />
       <Route path="/companydashboard" element={<CompanyDashboard/>} />
       <Route path="/companyprofile" element={<CompanyProfile/>} />
-
+      <Route path="/postjob" element={<PostJob/>} />
+      <Route path="/viewapplication" element={<Applications/>} />
 
 
     </Routes>

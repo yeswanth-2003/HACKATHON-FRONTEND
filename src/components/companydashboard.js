@@ -36,10 +36,13 @@ export default function CompanyDashboard() {
   };
 
   return (
-    <div className={`min-vh-100 ${darkMode ? "bg-dark text-light" : "bg-light text-dark"}`}>  
+    <div className={`min-vh-100 ${darkMode ? "bg-dark text-light" : "bg-light text-dark"}`}>
       <Navbar expand="lg" className={`px-4 py-3 border-bottom ${darkMode ? "bg-dark" : "bg-light"}`}>
         <Navbar.Brand className={`fw-bold ${darkMode ? "text-light" : "text-dark"}`}>{companyName} Dashboard</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="navbar-nav"
+          style={{ filter: darkMode ? "invert(1)" : "none" }} // Ensure hamburger is visible in dark mode
+        />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link className={darkMode ? "text-light" : "text-dark"} onClick={() => navigate('/companyprofile')}>Profile</Nav.Link>
@@ -52,7 +55,7 @@ export default function CompanyDashboard() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      
+
       <Container className="mt-4">
         <Row className="g-4">
           <Col md={8}>
@@ -69,13 +72,13 @@ export default function CompanyDashboard() {
               <Button variant={darkMode ? "light" : "dark"} className="mt-3 w-100" onClick={() => navigate('/postjob')}>Post New Job</Button>
             </div>
           </Col>
-          
+
           <Col md={4}>
             <div className={`p-4 border rounded ${darkMode ? "bg-secondary text-light" : "bg-white text-dark"}`}>
               <h4 className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}>Applications</h4>
               <ListGroup variant="flush">
                 {applications.map(app => (
-                  <ListGroup.Item key={app.id} className={`d-flex justify-content-between border-0 ${darkMode ? "bg-secondary text-light" : "bg-white text-dark"}`}>                    
+                  <ListGroup.Item key={app.id} className={`d-flex justify-content-between border-0 ${darkMode ? "bg-secondary text-light" : "bg-white text-dark"}`}>
                     <span>{app.applicant} - {app.job}</span>
                     <span className={`fw-semibold ${
                       app.status === "Accepted" ? "text-success" :
