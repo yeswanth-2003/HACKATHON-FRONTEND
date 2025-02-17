@@ -4,6 +4,7 @@ import { Container, Navbar, Nav, Button, ListGroup, Row, Col, Badge } from "reac
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function StudentDashboard() {
+  const [jobListings, setJobListings] = useState([]);
   const [applications, setApplications] = useState([
     { id: 1, job: "Frontend Developer", status: "Pending" },
     { id: 2, job: "Backend Developer", status: "Accepted" },
@@ -16,6 +17,15 @@ export default function StudentDashboard() {
   useEffect(() => {
     setStudentName(localStorage.getItem("studentName") || "Student");
     setDarkMode(JSON.parse(localStorage.getItem("darkMode")) || false);
+
+    fetch("https://hackathon-backend-z1w8.onrender.com/api/jobs/getalljobs")
+      .then(response => response.json())
+      .then(data => {
+        setJobListings(data);
+      })
+      .catch(error => {
+        console.error("Error fetching job listings:", error);
+      });
   }, []);
 
   const handleLogout = () => {
@@ -30,12 +40,7 @@ export default function StudentDashboard() {
     });
   };
 
-  const jobListings = [
-    { id: 1, title: "Software Engineer", company: "Google", location: "Bangalore" },
-    { id: 2, title: "Data Scientist", company: "Amazon", location: "Hyderabad" },
-    { id: 3, title: "UI/UX Designer", company: "Adobe", location: "Mumbai" },
-    { id: 4, title: "DevOps Engineer", company: "Microsoft", location: "Pune" },
-  ];
+
 
   return (
     <div className={`${darkMode ? "bg-dark text-light" : "bg-light text-dark"} min-vh-100`}>
@@ -61,9 +66,9 @@ export default function StudentDashboard() {
           <Col md={8}>
             <ListGroup className={`mb-4 shadow-lg rounded-3 ${darkMode ? "bg-secondary text-light" : "bg-white text-dark"}`}>
               <ListGroup.Item className="fw-bold fs-5">🌟 Job Listings</ListGroup.Item>
-              {jobListings.map(job => (
+              {jobListings.slice(0,4).map(job => (
                 <ListGroup.Item key={job.id} className="border-0 fs-5">
-                  <strong>{job.title}</strong> - {job.company} ({job.location})
+                  <strong>{job.title}</strong> - {job.companyName} ({job.location})
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -88,7 +93,7 @@ export default function StudentDashboard() {
           <ListGroup.Item>
             <p className="fs-5">- Quick access to resume</p>
             <p className="fs-5">- Skills overview</p>
-            <Button variant={darkMode ? "light" : "dark"} className="w-100 fs-5 fw-bold">Update Profile</Button>
+            <Button variant={darkMode ? "light" : "dark"} className="w-100 fs-5 fw-bold" onClick={()=>{navigate('/studentprofile')}}>View Profile</Button>
           </ListGroup.Item>
         </ListGroup>
       </Container>

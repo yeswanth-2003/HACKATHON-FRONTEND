@@ -19,6 +19,11 @@ export default function PostJob() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  const handlelogout = () => {
+    localStorage.clear();
+    navigate("/");
+    };
+
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => {
       localStorage.setItem("darkMode", JSON.stringify(!prevMode));
@@ -31,6 +36,7 @@ export default function PostJob() {
 
     // Fetch companyId from localStorage
     const companyId = localStorage.getItem("companyId");
+    const companyName = localStorage.getItem("companyName");
 
     if (!companyId) {
       setErrorMessage("Company ID is required.");
@@ -39,6 +45,7 @@ export default function PostJob() {
 
     // Collect job data from the form
     const jobData = {
+    companyName,
       companyId,
       title,
       description,
@@ -79,7 +86,7 @@ export default function PostJob() {
       }
 
       const result = await response.json();
-    //   navigate("/jobs"); // Redirect to jobs page after successful posting
+      navigate("/postjob"); // Redirect to jobs page after successful posting
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -98,7 +105,7 @@ export default function PostJob() {
             <Button className="ms-3" onClick={toggleDarkMode} variant={darkMode ? "outline-light" : "outline-dark"}>
               {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
             </Button>
-            <Button variant={darkMode ? "outline-light" : "outline-dark"} className="ms-3" onClick={() => navigate('/')}>Logout</Button>
+            <Button variant={darkMode ? "outline-light" : "outline-dark"} className="ms-3" onClick={handlelogout}>Logout</Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

@@ -4,11 +4,7 @@ import { Container, Navbar, Nav, Button, ListGroup, Row, Col } from "react-boots
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function CompanyDashboard() {
-  const [jobPosts, setJobPosts] = useState([
-    { id: 1, title: "Frontend Developer", applicants: 5 },
-    { id: 2, title: "Backend Developer", applicants: 8 },
-    { id: 3, title: "Data Analyst", applicants: 3 },
-  ]);
+  const [jobPosts, setJobPosts] = useState([]);
   const [applications, setApplications] = useState([
     { id: 1, applicant: "Amit Sharma", job: "Frontend Developer", status: "Pending" },
     { id: 2, applicant: "Priya Singh", job: "Backend Developer", status: "Accepted" },
@@ -19,8 +15,20 @@ export default function CompanyDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const companyId = localStorage.getItem("companyId");
     setCompanyName(localStorage.getItem("companyName") || "Company");
     setDarkMode(JSON.parse(localStorage.getItem("darkMode")) || false);
+
+    if (companyId) {
+      fetch(`https://hackathon-backend-z1w8.onrender.com/api/jobs/getjobs/${companyId}`)
+        .then(response => response.json())
+        .then(data => {
+          setJobPosts(data);
+        })
+        .catch(error => {
+          console.error("Error fetching job posts:", error);
+        });
+    }
   }, []);
 
   const handleLogout = () => {
@@ -62,7 +70,7 @@ export default function CompanyDashboard() {
             <div className={`p-4 border rounded ${darkMode ? "bg-secondary text-light" : "bg-white text-dark"}`}>
               <h4 className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}>Job Postings</h4>
               <ListGroup variant="flush">
-                {jobPosts.map(job => (
+                {jobPosts.slice(0,4).map(job => (
                   <ListGroup.Item key={job.id} className={`d-flex justify-content-between border-0 ${darkMode ? "bg-secondary text-light" : "bg-white text-dark"}`}>
                     <span>{job.title}</span>
                     <span className="fw-semibold">{job.applicants} applicants</span>
@@ -95,7 +103,7 @@ export default function CompanyDashboard() {
           <h4 className={`fw-semibold ${darkMode ? "text-light" : "text-dark"}`}>Company Profile</h4>
           <p>- Company Details & Contact Info</p>
           <p>- Hiring Preferences</p>
-          <Button variant={darkMode ? "light" : "dark"} className="w-100" onClick={() => navigate('/companyprofile')}>Update Profile</Button>
+          <Button variant={darkMode ? "light" : "dark"} className="w-100" onClick={() => navigate('/companyprofile')}>View Profile</Button>
         </div>
       </Container>
     </div>
