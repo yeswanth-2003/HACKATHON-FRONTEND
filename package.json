@@ -50,6 +50,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.1",
+    "rimraf": "^4.4.1",
     "tailwindcss": "^4.0.4"
   }
 }
